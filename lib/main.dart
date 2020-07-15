@@ -1,4 +1,7 @@
-import 'package:chat_app/screens/chat_screen.dart';
+import 'package:chat_app/constants.dart';
+import 'package:chat_app/screens/Login/login_screen.dart';
+import 'package:chat_app/screens/Signup/signup_screen.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +13,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatScreen(),
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      home: LoginScreen(),
+      routes: {
+        LoginScreen.routeName: (ctx) => LoginScreen(),
+        SignUpScreen.routeName: (ctx) => SignUpScreen(),
+      },
     );
   }
 }
