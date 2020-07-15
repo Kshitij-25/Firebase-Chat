@@ -2,6 +2,7 @@ import 'package:chat_app/components/already_have_an_account_acheck.dart';
 import 'package:chat_app/components/rounded_button.dart';
 import 'package:chat_app/components/rounded_input_field.dart';
 import 'package:chat_app/components/rounded_password_field.dart';
+import 'package:chat_app/constants.dart';
 import 'package:chat_app/screens/Login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +12,17 @@ import 'or_divider.dart';
 import 'social_icon.dart';
 
 class Body extends StatefulWidget {
+  final bool isLoading;
+  final void Function(
+    String email,
+    String password,
+    String username,
+    BuildContext context,
+  ) submitFn;
+  Body(
+    this.submitFn,
+    this.isLoading,
+  );
   @override
   _BodyState createState() => _BodyState();
 }
@@ -23,12 +35,15 @@ class _BodyState extends State<Body> {
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    Focus.of(context).unfocus();
+    // Focus.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      print(_userEmail);
-      print(_userName);
-      print(_userPassword);
+      widget.submitFn(
+        _userEmail.trim(),
+        _userName.trim(),
+        _userPassword.trim(),
+        context,
+      );
     }
   }
 
@@ -81,10 +96,23 @@ class _BodyState extends State<Body> {
                   return null;
                 },
               ),
-              RoundedButton(
-                text: "SIGNUP",
-                press: _trySubmit,
-              ),
+              if (widget.isLoading) CircularProgressIndicator(),
+              if (!widget.isLoading)
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: MediaQuery.of(context).size.height * .06,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    color: kPrimaryColor,
+                    child: Text(
+                      'SIGNUP',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: _trySubmit,
+                  ),
+                ),
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(
                 login: false,

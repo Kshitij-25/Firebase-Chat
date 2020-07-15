@@ -7,13 +7,20 @@ import 'package:chat_app/screens/Signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../constants.dart';
 import 'background.dart';
 
 class Body extends StatefulWidget {
-  const Body({
-    Key key,
-  }) : super(key: key);
-
+  final bool isLoading;
+  final void Function(
+    String email,
+    String password,
+    BuildContext context,
+  ) submitFn;
+  Body(
+    this.submitFn,
+    this.isLoading,
+  );
   @override
   _BodyState createState() => _BodyState();
 }
@@ -21,17 +28,18 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final _formKey = GlobalKey<FormState>();
   String _userEmail = '';
-  String _userName = '';
   String _userPassword = '';
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    Focus.of(context).unfocus();
+    // Focus.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      print(_userEmail);
-      print(_userName);
-      print(_userPassword);
+      widget.submitFn(
+        _userEmail.trim(),
+        _userPassword.trim(),
+        context,
+      );
     }
   }
 
@@ -75,10 +83,23 @@ class _BodyState extends State<Body> {
                   return null;
                 },
               ),
-              RoundedButton(
-                text: "LOGIN",
-                press: _trySubmit,
-              ),
+              if (widget.isLoading) CircularProgressIndicator(),
+              if (!widget.isLoading)
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: MediaQuery.of(context).size.height * .06,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    color: kPrimaryColor,
+                    child: Text(
+                      'SIGNUP',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: _trySubmit,
+                  ),
+                ),
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(
                 press: () {
