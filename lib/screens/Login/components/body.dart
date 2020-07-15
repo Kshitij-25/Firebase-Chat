@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
                     ),
                     color: kPrimaryColor,
                     child: Text(
-                      'SIGNUP',
+                      'LOGIN',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: _trySubmit,
