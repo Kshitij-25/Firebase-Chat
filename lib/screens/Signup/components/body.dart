@@ -1,12 +1,14 @@
+import 'dart:io' show Platform;
 import 'package:chat_app/components/already_have_an_account_acheck.dart';
-import 'package:chat_app/components/rounded_button.dart';
+
 import 'package:chat_app/components/rounded_input_field.dart';
 import 'package:chat_app/components/rounded_password_field.dart';
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/screens/Login/login_screen.dart';
+import 'package:chat_app/widgets/pickers/user_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
+import '../../../constants.dart';
 import 'background.dart';
 import 'or_divider.dart';
 import 'social_icon.dart';
@@ -35,7 +37,7 @@ class _BodyState extends State<Body> {
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    // Focus.of(context).unfocus();
+    Focus.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
       widget.submitFn(
@@ -57,6 +59,7 @@ class _BodyState extends State<Body> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              UserImagePicker(),
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
                 hintText: "Your Email",
@@ -128,10 +131,15 @@ class _BodyState extends State<Body> {
                     iconSrc: "assets/icons/facebook.svg",
                     press: () {},
                   ),
-                  SocalIcon(
-                    iconSrc: "assets/icons/twitter.svg",
-                    press: () {},
-                  ),
+                  !Platform.isIOS
+                      ? SocalIcon(
+                          iconSrc: "assets/icons/twitter.svg",
+                          press: () {},
+                        )
+                      : SocalIcon(
+                          iconSrc: "assets/icons/apple.svg",
+                          press: () {},
+                        ),
                   SocalIcon(
                     iconSrc: "assets/icons/google-plus.svg",
                     press: () {},
