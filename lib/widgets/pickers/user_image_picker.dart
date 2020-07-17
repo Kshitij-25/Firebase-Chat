@@ -17,7 +17,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
 
   final picker = ImagePicker();
   void _pickImage() async {
-    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    final pickedImage = await picker.getImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxWidth: 300,
+    );
 
     final pickedImageFile = File(pickedImage.path);
     setState(() {
@@ -27,7 +31,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
   }
 
   void _takePhoto() async {
-    final takePhoto = await picker.getImage(source: ImageSource.camera);
+    final takePhoto = await picker.getImage(
+      source: ImageSource.camera,
+      imageQuality: 50,
+      maxWidth: 300,
+    );
     final takePhotoFile = File(takePhoto.path);
     setState(() {
       _image = takePhotoFile;
