@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
 import 'package:chat_app/components/already_have_an_account_acheck.dart';
 
 import 'package:chat_app/components/rounded_input_field.dart';
@@ -19,6 +19,7 @@ class Body extends StatefulWidget {
     String email,
     String password,
     String username,
+    File image,
     BuildContext context,
   ) submitFn;
   Body(
@@ -34,16 +35,31 @@ class _BodyState extends State<Body> {
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
+  File _userImageFile;
+
+  void _pickedImage(File image) {
+    _userImageFile = image;
+  }
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    Focus.of(context).unfocus();
+    // Focus.of(context).unfocus();
+    if (_userImageFile == null) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please pick an image'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
     if (isValid) {
       _formKey.currentState.save();
       widget.submitFn(
         _userEmail.trim(),
         _userName.trim(),
         _userPassword.trim(),
+        _userImageFile,
         context,
       );
     }
@@ -59,7 +75,7 @@ class _BodyState extends State<Body> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              UserImagePicker(),
+              UserImagePicker(_pickedImage),
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
                 hintText: "Your Email",

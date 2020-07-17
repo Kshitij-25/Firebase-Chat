@@ -32,6 +32,7 @@ dependencies:
   flutter_svg:
   firebase_auth:
   image_picker:
+  firebase_storage:
 
 dev_dependencies:
   flutter_test:

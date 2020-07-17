@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String email,
     String username,
     String password,
+    File image,
     BuildContext ctx,
   ) async {
     AuthResult authResult;
@@ -29,6 +33,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('user_image')
+          .child(authResult.user.uid + '.jpg');
+      await ref.putFile(image).onComplete;
       await Firestore.instance
           .collection('users')
           .document(authResult.user.uid)

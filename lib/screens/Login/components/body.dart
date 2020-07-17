@@ -32,7 +32,7 @@ class _BodyState extends State<Body> {
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    Focus.of(context).unfocus();
+    // Focus.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
       widget.submitFn(
