@@ -2,6 +2,7 @@ import 'package:chat_app/constants.dart';
 import 'package:chat_app/screens/Login/login_screen.dart';
 import 'package:chat_app/screens/Signup/signup_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
+import 'package:chat_app/screens/home_screen.dart';
 import 'package:chat_app/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
               return SplashScreen();
             }
             if (userSnapshot.hasData) {
-              return ChatScreen();
+              return HomeScreen();
             }
             return LoginScreen();
           }),
