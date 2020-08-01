@@ -1,4 +1,5 @@
 import 'package:chat_app/constants.dart';
+import 'package:chat_app/widgets/recent_chats.dart';
 import 'package:chat_app/widgets/stories.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   topRight: Radius.circular(50),
                 ),
               ),
+              child: RecentChats(),
             ),
           )
         ],

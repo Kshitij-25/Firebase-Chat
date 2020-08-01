@@ -39,14 +39,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .child(authResult.user.uid + '.jpg');
       await ref.putFile(image).onComplete;
       final url = await ref.getDownloadURL();
-      await Firestore.instance
-          .collection('users')
-          .document(authResult.user.uid)
-          .setData(
+      final docRef =
+          Firestore.instance.collection('users').document(authResult.user.uid);
+      docRef.setData(
         {
           'username': username,
           'email': email,
           'image_url': url,
+          'id': docRef.documentID,
         },
       );
     } on PlatformException catch (err) {
